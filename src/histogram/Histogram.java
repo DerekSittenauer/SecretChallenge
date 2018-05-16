@@ -34,19 +34,22 @@ public class Histogram {
             String line = reader.readLine();
             //until end of file
             while (line != null) {
-                //if there is no empty space to trim on a line
+                //removes any empty space on a line
+                //if there is nothing on a line it will skip it
                 if (!line.trim().equals("")) {
-                    //string array to store individual words
+                    //string array to store individual words that are
+                    //separated by a space
                     String words [] = line.split(" ");
 
                     //cycle through the words
                     for (String word : words) {
-                        //if there are still words OR
-                        //if all blank space has been trimmed from a word
+                        //making sure we don't read in any blank words OR empty lines
+                        //if word is valid OR after being trimmed is not ""
                         if (word == null || word.trim().equals(""))
                             continue;
 
                         //string for each processed word
+                        //making all words put into string lowercase for simplicity
                         String processed = word.toLowerCase();
                         //remove any commas
                         processed = processed.replace(",", "");
@@ -67,14 +70,16 @@ public class Histogram {
 
             }
 
-            //create set for comparing
+            //create set with the hashmap for comparing
             Set<Map.Entry<String, Integer>> set = hmap.entrySet();
-            //create array list for comparing
+            //create array list with the hashmap for comparing
             List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(set);
-            //creating a new collection to compare values
+            //creating a new collection to compare values.
+            //list includes the array list to sort, creating a new comparator
+            //allows us to use a custom compare method
             Collections.sort(list, new Comparator<Map.Entry<String, Integer>>()
             {
-                //function used to compare values in hashmap
+                //method used to compare values in hashmap
                 public int compare(Map.Entry<String, Integer> value1, Map.Entry<String, Integer> value2)
                 {
                     //returns hashmap in descending order
@@ -82,7 +87,7 @@ public class Histogram {
                 }
             });
 
-            //creating outputfile
+            //creating output file
             PrintWriter output = new PrintWriter("resources/output.txt", "UTF-8");
             //loop to print to output file
             for(Map.Entry<String, Integer> entry:list) {
@@ -105,7 +110,7 @@ public class Histogram {
             }
 
             /*
-            //loop for display to console for testing purposes
+            //loop for displaying to console for testing purposes
             for(Map.Entry<String, Integer> entry:list){
                 //if 4 occurrences
                 if(entry.getValue() == 4) {
